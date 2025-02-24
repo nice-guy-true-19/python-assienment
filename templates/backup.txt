@@ -1,0 +1,20 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Journal</title>
+
+
+
+<body>
+    <h1>Daily Journal</h1>
+    <a href="/add">Add New Entry</a>
+    <ul>
+        {% for entry in entries %}
+        <strong>{{ entry.title }}</strong>: {{ entry.content }}
+        <a href="{{ url_for('delete_entry', id=entry.id) }}" 
+           style="color: red; margin-left: 10px;" 
+           onclick="return confirm('Are you sure you want to delete this entry?');">
+           [Delete]
+        </a>
+        {% endfor %}
+    </ul>
+</body>

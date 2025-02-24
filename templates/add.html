@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Journal Entry</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: black;
+            background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            color: white;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        .separator {
+            width: 100%;
+            max-width: 400px;
+            height: 4px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0px 0px 8px currentColor;
+            background-color: #00ffff;
+            color: #00ffff;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+            border-radius: 5px;
+            outline: none;
+        }
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .submit-btn, .bullet-btn {
+            border: 2px solid silver;
+            padding: 10px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            background: transparent;
+            color: white;
+            width: 100%;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .submit-btn:hover, .bullet-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 10px silver;
+        }
+        .bullet-btn {
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #ff8800;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-shadow: 0px 0px 8px #ff8800;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Add a New Journal Entry</h1>
+    <div class="separator"></div>
+    
+    <div class="form-container">
+        <form method="POST">
+            <input type="text" name="title" class="input-field" placeholder="Title" required>
+            
+            <textarea id="content" name="content" class="input-field" rows="5" placeholder="Write your thoughts..." required></textarea>
+            
+            <!-- Bullet Point Button -->
+            <button type="button" class="bullet-btn" onclick="addBullet()">➕ Bullet Point</button>
+            
+            <button type="submit" class="submit-btn">Save Entry</button>
+        </form>
+    </div>
+
+    <a href="/" class="back-link">← Back to Home</a>
+
+    <script>
+        function addBullet() {
+            var textarea = document.getElementById("content");
+            var cursorPos = textarea.selectionStart;
+            var textBefore = textarea.value.substring(0, cursorPos);
+            var textAfter = textarea.value.substring(cursorPos);
+            
+            // Insert bullet point at cursor position and move to a new line
+            textarea.value = textBefore + "\n• " + textAfter;
+            
+            // Move cursor after bullet
+            textarea.selectionStart = textarea.selectionEnd = cursorPos + 3;
+            
+            // Focus back on textarea
+            textarea.focus();
+        }
+
+        // Auto-add bullet when user presses Enter inside the textarea
+        document.getElementById("content").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent normal Enter behavior
+                
+                var cursorPos = this.selectionStart;
+                var textBefore = this.value.substring(0, cursorPos);
+                var textAfter = this.value.substring(cursorPos);
+                
+                // Add new line with a bullet point
+                this.value = textBefore + "\n• " + textAfter;
+                
+                // Move cursor after bullet
+                this.selectionStart = this.selectionEnd = cursorPos + 3;
+            }
+        });
+    </script>
+</body>
+</html>
